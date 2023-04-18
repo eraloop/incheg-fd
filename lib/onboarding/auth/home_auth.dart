@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:incheg_events/onboarding/auth/login.dart';
+import 'package:incheg_events/onboarding/auth/signup.dart';
 class HomeAuth extends StatelessWidget {
   const HomeAuth({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 100.0),
+                padding: const EdgeInsets.only(top: 50.0),
                 child: FittedBox(
                   child: Image.asset("assets/images/logo_blue.png",
                     fit: BoxFit.cover,
@@ -31,7 +35,15 @@ class HomeAuth extends StatelessWidget {
                       fontSize: 30,
                       fontWeight: FontWeight.w900),),
               ),
-              // const Spacer(),
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                height: 300,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: BorderRadius.all(Radius.circular(20))
+                ),
+              ),
               const SizedBox(
                 height: 50,
               ),
@@ -51,7 +63,12 @@ class HomeAuth extends StatelessWidget {
                       )),
                       backgroundColor:
                       MaterialStateProperty.all(Color(0xff330072))),
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                      );
+                    },
                     child: Text("Login",
                     style: Theme.of(context).textTheme.headline5,),
 
@@ -77,7 +94,12 @@ class HomeAuth extends StatelessWidget {
                             side: const BorderSide(
                                 width: 1, color: Color(0xff330072)))),
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUp()),
+                    );
+                  },
                   child: Text("Sign Up",
                     style: Theme.of(context).textTheme.headline6,),
 

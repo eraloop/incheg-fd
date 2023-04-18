@@ -68,7 +68,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               Text('All rights reserved, Incheg 2023.',
                 style: TextStyle(
                   color: Theme.of(context).unselectedWidgetColor,
-                ),)
+                ),),
 
             ],
           ),

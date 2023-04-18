@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         textTheme: const TextTheme(
         // body text styles
         bodyText1: TextStyle(
-        color: Color(0xff790252),
+        color: Color(0xff330072),
         fontFamily: 'poppins',
         fontStyle: FontStyle.normal,
         fontSize: 15,
