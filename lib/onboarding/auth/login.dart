@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:incheg_events/helper/app_utils.dart';
+import 'package:incheg_events/helper/session_mananger.dart';
+import 'package:incheg_events/home_nav.dart';
+import 'package:incheg_events/models/user.dart';
+import 'package:incheg_events/onboarding/auth/home_auth.dart';
 import 'package:incheg_events/onboarding/auth/signup.dart';
 
 class Login extends StatefulWidget {
@@ -19,8 +25,58 @@ class _LoginState extends State<Login> {
   bool remember_me = false;
 
   Map<String, dynamic> formData = {
-
+    "email": '',
+    "password": '',
   };
+  onLogin() async {
+    if (!formKey.currentState!.validate()) {
+      return "form data invalid";
+    }
+    if (formKey.currentState != null) {
+      formKey.currentState!.save();
+    }
+
+
+
+    AppUtils.showProgressDialog(context);
+    final response = await  User.login(formData);
+    final data = json.decode(response.body);
+    if(response.statusCode == 201){
+      //  success
+      Navigator.of(context, rootNavigator: true).pop();
+      SessionManager().setUser(
+        id: data['user']['id'],
+        token: data['token'],
+        name: data['user']['name'],
+        email: data['user']['email'],
+        phone: data['user']['phone'],
+        sin: data['user']['sin'],
+        resp_promoter: data['user']['resp_promoter'],
+        eligibility_status: data['user']['eligibility_status'],
+      );
+      SessionManager().setToken(data['token']);
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeNav()));
+      AppUtils.showToast(context, Colors.green, data['message']);
+
+    }else if (response.statusCode == 401){
+      //  credentials not correct
+      Navigator.of(context, rootNavigator: true).pop();
+      AppUtils.showToast(context, Colors.red, data['message']);
+    }else if(response.statusCode == 403){
+      //  missing credential
+      Navigator.of(context, rootNavigator: true).pop();
+      AppUtils.showToast(context, Colors.red, data['message']);
+    }else if(response.statusCode == 500){
+      //server error
+      Navigator.of(context, rootNavigator: true).pop();
+      AppUtils.showToast(context, Colors.red, data['message']);
+    }else{
+      // something whe  wrong
+      Navigator.of(context, rootNavigator: true).pop();
+      AppUtils.showToast(context, Colors.red, 'Something when wrong');
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {

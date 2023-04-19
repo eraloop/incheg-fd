@@ -38,7 +38,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     FittedBox(
                       child: Image.asset("assets/images/logo_blue.png",
                         fit: BoxFit.cover,
-                        height: 40,
+                        height: 80,
                       ),
                     ),
                      const Padding(

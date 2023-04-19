@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incheg_events/home_nav.dart';
 import 'package:incheg_events/onboarding/splashscreen.dart';
 
 void main() {
@@ -21,6 +22,10 @@ class MyApp extends StatelessWidget {
         primaryColorLight: const Color(0xffffffff),
         errorColor: const Color(0xffFF230E),
         fontFamily: 'poppins',
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          color: Colors.transparent,
+        ),
         textTheme: const TextTheme(
         // body text styles
         bodyText1: TextStyle(
@@ -88,7 +93,7 @@ class MyApp extends StatelessWidget {
         fontWeight: FontWeight.w600,
         letterSpacing: 0.4),
     ),),
-      home: const SplashScreen(),
+      home: const HomeNav(),
       // routes: null,
     );
   }
