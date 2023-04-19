@@ -1,8 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:incheg_events/home_nav.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:incheg_events/onboarding/auth/home_auth.dart';
+import 'package:incheg_events/onboarding/auth/phone_verification.dart';
+import 'package:incheg_events/onboarding/auth/verification_done.dart';
 import 'package:incheg_events/onboarding/splashscreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate();
+
+
+
+  // FirebaseApp.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyCFHy0PdznDVpXVN1QM0wXHpPyceLfuXIQ",
+      appId: "incheg-25bc0",
+      messagingSenderId: "1036181384352",
+      projectId: "1036181384352",
+    ),
+    // options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.playIntegrity,
+  );
+  SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
+    systemNavigationBarColor: Color(0xff330072), // navigation bar color
+    statusBarColor: Color(0xff330072), // status bar color
+  ));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   runApp(const MyApp());
 }
 
@@ -12,7 +45,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Incheg events',
+      title: 'Incheg',
       theme: ThemeData(
         primaryColor: const Color(0xff330072),
         accentColor: const Color(0xffFEDD1F),
@@ -93,7 +126,7 @@ class MyApp extends StatelessWidget {
         fontWeight: FontWeight.w600,
         letterSpacing: 0.4),
     ),),
-      home: const HomeNav(),
+      home: VerificationDone(),
       // routes: null,
     );
   }

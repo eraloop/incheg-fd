@@ -57,7 +57,6 @@ class TabNavigationItem {
     required this.page,
     required this.tab,
   });
-
   static List<TabNavigationItem> get items => [
     TabNavigationItem(
       page: Recap(),
