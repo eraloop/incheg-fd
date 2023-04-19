@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:incheg_events/home_nav.dart';
 import 'package:incheg_events/onboarding/auth/login.dart';
 import 'package:incheg_events/onboarding/auth/signup.dart';
 class HomeAuth extends StatelessWidget {
@@ -7,6 +8,29 @@ class HomeAuth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: TextButton(onPressed: (){
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeNav()),
+                      (route) => false);
+            }, child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Skip",
+                style: Theme.of(context).textTheme.headline6,),
+                Icon(Icons.double_arrow,
+                  size: 20,
+                  color: Theme.of(context).primaryColor,),
+              ],
+            )),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,
