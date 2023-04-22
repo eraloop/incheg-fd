@@ -31,6 +31,13 @@ class _VerificationDoneState extends State<VerificationDone> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Icon(Icons.check_rounded,
+                size: 100,
+                color: Color(0xff62BAAC),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0,),
               child: Text("Done",
@@ -49,16 +56,6 @@ class _VerificationDoneState extends State<VerificationDone> {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline4,),
             ),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Icon(Icons.check_rounded,
-              size: 100,
-              color: Color(0xff62BAAC),
-              ),
-            ),
-
-
           ],
         ),
       ),

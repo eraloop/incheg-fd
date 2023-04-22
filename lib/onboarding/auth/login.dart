@@ -36,8 +36,6 @@ class _LoginState extends State<Login> {
       formKey.currentState!.save();
     }
 
-
-
     AppUtils.showProgressDialog(context);
     final response = await  User.login(formData);
     final data = json.decode(response.body);
@@ -309,7 +307,7 @@ class _LoginState extends State<Login> {
                           onPressed: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Login()),
+                              MaterialPageRoute(builder: (context) => HomeNav()),
                             );
                           },
                           child: Text("Login",

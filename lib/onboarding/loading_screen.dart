@@ -15,12 +15,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => OnboardingScreen()),
-              (route) => false);
-    });
+
   }
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:incheg_events/helper/app_utils.dart';
+import 'package:incheg_events/helper/authenticate.dart';
+import 'package:incheg_events/helper/session_mananger.dart';
+import 'package:incheg_events/home_nav.dart';
+import 'package:incheg_events/models/user.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 class PhoneVerification extends StatefulWidget {
   const PhoneVerification({Key? key}) : super(key: key);
-
   @override
   State<PhoneVerification> createState() => _PhoneVerificationState();
 }
 
 class _PhoneVerificationState extends State<PhoneVerification> {
   String code = '';
+  Map<String, dynamic> formData = {
+    // "name": userData['name'],
+    // "phone": userData['phone'],
+    // "email": userData['email'],
+    // "password": userData['password'],
+  };
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +46,11 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline6,),
             ),
-
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: PinCodeTextField(
                 appContext: context,
+                useHapticFeedback: true,
                 pastedTextStyle: const TextStyle(
                   color: Color(0xff330072),
                   fontWeight: FontWeight.bold,
@@ -46,6 +60,8 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                 blinkWhenObscuring: false,
                 animationType: AnimationType.fade,
                 pinTheme: PinTheme(
+                    inactiveFillColor: Colors.red,
+                    activeFillColor: Colors.red,
                     shape: PinCodeFieldShape.box,
                     borderRadius: BorderRadius.circular(5),
                     fieldHeight: 45,
@@ -80,12 +96,12 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                     )),
                     backgroundColor:
                     MaterialStateProperty.all(Color(0xff330072))),
-                onPressed: (){
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Login()),
-                  // );
-                },
+                onPressed: Authenticate.verifyPhone(
+                  context,
+                  '673572533',
+                  code,
+                  formData
+                ),
                 child: Text("Verify",
                   style: Theme.of(context).textTheme.headline5,),
 

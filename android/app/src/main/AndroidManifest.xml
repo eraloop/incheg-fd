@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.incheg_events">
+    package="com.incheg">
    <application
         android:label="Incheg"
         android:name="${applicationName}"
