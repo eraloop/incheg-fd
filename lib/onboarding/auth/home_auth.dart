@@ -34,13 +34,13 @@ class HomeAuth extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 50.0),
+                padding: const EdgeInsets.only(top: 0.0),
                 child: FittedBox(
                   child: Image.asset("assets/images/logo_blue.png",
                     fit: BoxFit.cover,

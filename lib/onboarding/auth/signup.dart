@@ -23,6 +23,7 @@ class _SignUpState extends State<SignUp> {
   FocusNode passwordFocusNode = FocusNode();
   FocusNode emailFocusNode = FocusNode();
   FocusNode nameFocusNode = FocusNode();
+  FocusNode phoneFocusNode = FocusNode();
   FocusNode confirmPasswordFocusNode = FocusNode();
 
   bool _passwordVisible = false;
@@ -46,28 +47,33 @@ class _SignUpState extends State<SignUp> {
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Container(
-            margin: const EdgeInsets.only(top: 100),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text("Sign Up",
-                    style: Theme.of(context).textTheme.headline4,),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text("Please provide your login info below",
-                    style: Theme.of(context).textTheme.bodyText1,),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30.0),
-                  child: Form(
-                      key: formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+          margin: const EdgeInsets.only(top: 50),
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text("Sign Up",
+                  style: Theme.of(context).textTheme.headline4,),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: Text("Please provide your login info below",
+                  style: Theme.of(context).textTheme.bodyText1,),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30.0),
+                child: Form(
+                  key: formKey,
+                  child: Expanded(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        // mainAxisSize: MainAxisSize.min,
+                        // crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           TextFormField(
                             obscureText: !_passwordVisible,
@@ -90,7 +96,7 @@ class _SignUpState extends State<SignUp> {
                               fillColor: Theme.of(context).backgroundColor,
                               labelText: 'Full Name',
                               labelStyle: TextStyle(
-                                  color: nameFocusNode.hasFocus
+                                  color: phoneFocusNode.hasFocus
                                       ? Theme.of(context).primaryColor
                                       : Colors.black),
                               border: OutlineInputBorder(
@@ -131,77 +137,63 @@ class _SignUpState extends State<SignUp> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Row(
-                            children: [
-                              CountryCodePicker(
-                                onChanged: (element) {
-                                  county_code = element.dialCode!;
-                                },
-                                initialSelection: 'US',
-                                showCountryOnly: false,
-                                showOnlyCountryWhenClosed: false,
-                                alignLeft: false,
-                              ),
-                              TextFormField(
-                                obscureText: !_passwordVisible,
-                                autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                                validator: (value) {
-                                  if (value!.length < 6) {
-                                    return 'Invalid phone, too short';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  userData["phone"] = value ??= "";
-                                },
-                                onChanged: (value) =>
-                                userData['phone'] = value,
-                                focusNode: nameFocusNode,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Theme.of(context).backgroundColor,
-                                  labelText: 'Phone',
-                                  labelStyle: TextStyle(
-                                      color: nameFocusNode.hasFocus
-                                          ? Theme.of(context).primaryColor
-                                          : Colors.black),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(200.0),
-                                      borderSide: BorderSide.none
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(200.0),
-                                      borderSide: BorderSide.none
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(200.0),
-                                      borderSide: BorderSide(color: Theme.of(context).primaryColor)
-                                  ),
-                                  errorBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(200.0)),
-                                      borderSide: BorderSide(
-                                        width: 1,
-                                        color: Colors.red,
-                                      )),
-                                  focusedErrorBorder: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(200.0)),
-                                    borderSide: BorderSide(
-                                      width: 1,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  contentPadding:
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 5),
-
+                          Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(top: 10),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).backgroundColor,
+                              borderRadius:
+                              BorderRadius.circular(200.0),
+                            ),
+                            height: 50,
+                            child: Row(
+                              children: [
+                                CountryCodePicker(
+                                  onChanged: (element) {
+                                    county_code = element.dialCode!;
+                                  },
+                                  initialSelection: 'US',
+                                  showCountryOnly: false,
+                                  showOnlyCountryWhenClosed: false,
+                                  alignLeft: false,
                                 ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ],
-                          ),
+                                Expanded(
+                                    child: TextFormField(
+                                              obscureText: !_passwordVisible,
+                                              autovalidateMode:
+                                              AutovalidateMode.onUserInteraction,
+                                              validator: (value) {
+                                                if (value!.length < 6) {
+                                                  return 'Invalid phone, too short';
+                                                }
+                                                return null;
+                                              },
+                                              onSaved: (value) {
+                                                userData["phone"] = value ??= "";
+                                              },
+                                              onChanged: (value) =>
+                                              userData['phone'] = value,
+                                              focusNode: phoneFocusNode,
+                                              decoration: InputDecoration(
+                                                // filled: true,
+                                                // fillColor: Theme.of(context).backgroundColor,
+                                                labelStyle: TextStyle(
+                                                    color: phoneFocusNode.hasFocus
+                                                        ? Theme.of(context).primaryColor
+                                                        : Colors.black),
+                                                border: const OutlineInputBorder(
+                                                    // color: Colors.none,
+                                                    borderSide: BorderSide.none
+                                                ),
+                                                contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 20, vertical: 5),
+                                              ),
+                                              keyboardType: TextInputType.number,
+                                            ),
+                                )],
+                                        ),),
+
                           const SizedBox(
                             height: 20,
                           ),
@@ -212,11 +204,9 @@ class _SignUpState extends State<SignUp> {
                               if (value! == '') {
                                 return "email field can't be empty";
                               }
-
                               if (!EmailValidator.validate(value)) {
                                 return "Please enter a valid email";
                               }
-
                               final RegExp regex = RegExp(
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
                               // RegExp regex = new RegExp(pattern);
@@ -431,7 +421,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             keyboardType: TextInputType.visiblePassword,
                           ),
-
+                          //
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20.0),
                             child: TextButton(
@@ -448,16 +438,17 @@ class _SignUpState extends State<SignUp> {
                                   )),
                                   backgroundColor:
                                   MaterialStateProperty.all(Color(0xff330072))),
-                              onPressed: Authenticate.onVerifyPhone(
-                                context,
-                                userData['phone'],
-                                userData
-                              ),
+                              onPressed: null,
+                              // Authenticate.onVerifyPhone(
+                              //   context,
+                              //   userData['phone'],
+                              //   userData
+                              // ),
                               child: Text("Sign Up",
                                 style: Theme.of(context).textTheme.headline5,),
                             ),
                           ),
-
+                          //
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Row(
@@ -521,46 +512,43 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                           ),
-                          // const Spacer(),
-
-
-
                         ],
-                      )),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
-                  child: TextButton(
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.only(
-                              top: 10,
-                              left: 105,
-                              right: 105,
-                              bottom:10)),
-                      backgroundColor:
-                      MaterialStateProperty.all(Color(0xffffffff)),
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: const BorderSide(
-                                  width: 1, color: Color(0xff330072)))),
-                    ),
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUp()),
-                      );
-                    },
-                    child: Text("Sign Up with Google",
-                      style: Theme.of(context).textTheme.headline6,),
-
+                      ),
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: TextButton(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.only(
+                            top: 10,
+                            left: 105,
+                            right: 105,
+                            bottom:10)),
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0xffffffff)),
+                    shape: MaterialStateProperty.all<
+                        RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            side: const BorderSide(
+                                width: 1, color: Color(0xff330072)))),
+                  ),
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUp()),
+                    );
+                  },
+                  child: Text("Sign Up with Google",
+                    style: Theme.of(context).textTheme.headline6,),
+
+                ),
+              )
+            ],
           ),
         ),
       ),
