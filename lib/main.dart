@@ -124,7 +124,7 @@ class MyApp extends StatelessWidget {
         fontWeight: FontWeight.w600,
         letterSpacing: 0.4),
     ),),
-      home: SignUp(),
+      home: HomeAuth(),
       // routes: null,
     );
   }

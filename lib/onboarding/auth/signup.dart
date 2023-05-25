@@ -152,7 +152,7 @@ class _SignUpState extends State<SignUp> {
                                   onChanged: (element) {
                                     county_code = element.dialCode!;
                                   },
-                                  initialSelection: 'US',
+                                  initialSelection: 'CM',
                                   showCountryOnly: false,
                                   showOnlyCountryWhenClosed: false,
                                   alignLeft: false,
@@ -175,6 +175,7 @@ class _SignUpState extends State<SignUp> {
                                               userData['phone'] = value,
                                               focusNode: phoneFocusNode,
                                               decoration: InputDecoration(
+                                                hintText: "655-555-555",
                                                 // filled: true,
                                                 // fillColor: Theme.of(context).backgroundColor,
                                                 labelStyle: TextStyle(

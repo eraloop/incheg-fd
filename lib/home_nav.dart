@@ -20,6 +20,7 @@ class _HomeNavState extends State<HomeNav> {
   Widget build(BuildContext context) {
     print(token);
     return Scaffold(
+
         resizeToAvoidBottomInset: false,
         extendBody: true,
         body: IndexedStack(

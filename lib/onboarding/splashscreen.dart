@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     super.initState();
 
     Timer
-      (const Duration(seconds: 5), () {
+      (const Duration(seconds: 3), () {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => OnboardingScreen()),
@@ -37,18 +37,18 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
              Image.asset("assets/images/logo_white.png",
-             height: 30,
+             height: 50,
              fit: BoxFit.cover,),
 
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Text("Incheg events",
+                child: Text("events",
              style: TextStyle(
                  color: Colors.white,
                  fontFamily: 'poppins',
                  fontStyle: FontStyle.normal,
-                 fontSize: 20,
-                 fontWeight: FontWeight.w400,
+                 fontSize: 25,
+                 fontWeight: FontWeight.w500,
                  height: 1.5,
              ),),
               )
