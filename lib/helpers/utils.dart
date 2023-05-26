@@ -38,7 +38,7 @@ class Utils {
   static AppBar appBar(BuildContext context, String title){
     return AppBar(
     automaticallyImplyLeading: false,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.transparent,
     elevation: 0,
       title: Text(title,
         style: TextStyle(
@@ -48,7 +48,18 @@ class Utils {
             fontSize: 20,
             fontWeight: FontWeight.w900),
       ),
-      centerTitle: true,
+      actions: [
+        MaterialButton(
+            minWidth: 40,
+            onPressed: () {
+            },
+            child:  Icon(
+              Icons.notifications_none ,
+              size: 30,
+              color: Theme.of(context).primaryColor ,
+            )
+        )
+      ],
 
     );
   }

@@ -20,7 +20,6 @@ class _HomeNavState extends State<HomeNav> {
   Widget build(BuildContext context) {
     print(token);
     return Scaffold(
-
         resizeToAvoidBottomInset: false,
         extendBody: true,
         body: IndexedStack(
@@ -29,23 +28,98 @@ class _HomeNavState extends State<HomeNav> {
             for (final tabItem in TabNavigationItem.items) tabItem.page,
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _currentIndex,
-          iconSize: 28,
-          elevation: 0,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          // backgroundColor: Color(0xff790252),
-          selectedItemColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Theme.of(context).unselectedWidgetColor,
-          onTap: (value) {
-            // Respond to item press.
-            setState(() => _currentIndex = value);
+        floatingActionButton: TextButton(
+          onPressed: () {
+            setState(() {
+              _currentIndex = 2;
+            });
           },
-          items: [
-            for (final tabItem in TabNavigationItem.items) tabItem.tab,
-          ],
+          child: Container(
+            height: 55,
+            width: 55,
+            decoration: BoxDecoration(
+              color: _currentIndex == 2 ? Theme.of(context).primaryColor : Color(0xff007333),
+              borderRadius: BorderRadius.circular(300),
+            ),
+            child: const Icon(Icons.add,
+                color:  Color(0xffffffff)
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: BottomAppBar(
+              elevation: 0,
+              shape: CircularNotchedRectangle(),
+              notchMargin: 10,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                height: 60,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState(() {
+                          _currentIndex = 0;
+                        });
+                      },
+                      child: Icon(
+                        _currentIndex == 0 ? Icons.home : Icons.home_outlined,
+                        size: 30,
+                        color: _currentIndex == 0 ? Theme.of(context).primaryColor : Theme.of(context).unselectedWidgetColor,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 45.0),
+                      child: MaterialButton(
+                        minWidth: 40,
+                        onPressed: () {
+                          setState(() {
+                            _currentIndex = 1;
+                          });
+                        },
+                        child: Icon(
+                          size: 30,
+                          _currentIndex == 1 ? Icons.email : Icons.email_outlined,
+                          color: _currentIndex == 1 ? Theme.of(context).primaryColor : Theme.of(context).unselectedWidgetColor,
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 45.0),
+                      child: MaterialButton(
+                        minWidth: 40,
+                        onPressed: () {
+                          setState(() {
+                            _currentIndex = 3;
+                          });
+                        },
+                        child: Icon(
+                          size: 30,
+                          Icons.line_weight_sharp,
+                          color: _currentIndex == 3 ? Theme.of(context).primaryColor : Theme.of(context).unselectedWidgetColor,
+                        ),
+                      ),
+                    ),
+                    MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState(() {
+                          _currentIndex = 4;
+                        });
+                      },
+
+                    child:  Icon(
+                      _currentIndex == 4 ? Icons.person : Icons.person_2_outlined,
+                      size: 30,
+                        color: _currentIndex == 4 ? Theme.of(context).primaryColor : Theme.of(context).unselectedWidgetColor,
+                    )
+                      )
+                  ],
+                ),
+              ),
         )
     );
   }
@@ -60,8 +134,8 @@ class TabNavigationItem {
   });
   static List<TabNavigationItem> get items => [
     TabNavigationItem(
-      page: Recap(),
-      tab: BottomNavigationBarItem(
+      page: const Recap(),
+      tab: const BottomNavigationBarItem(
         label: "",
         icon: Padding(
           child: Icon(Icons.home_outlined),
@@ -70,8 +144,8 @@ class TabNavigationItem {
       ),
     ),
     TabNavigationItem(
-      page: Invites(),
-      tab: BottomNavigationBarItem(
+      page: const Invites(),
+      tab: const BottomNavigationBarItem(
         label: "",
         icon: Padding(
           child: Icon(Icons.email_outlined),
@@ -81,26 +155,15 @@ class TabNavigationItem {
     ),
 
     TabNavigationItem(
-      page: CreateEvent(),
-      tab: BottomNavigationBarItem(
+      page: const CreateEvent(),
+      tab: const  BottomNavigationBarItem(
         label: "",
-        icon: Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(300),
-              border: Border.all(
-                  width: 1,
-                  color: Color(0xff62BAAC)
-              )
-          ),
-          child: Icon(Icons.add,
-              color:  Color(0xff62BAAC)
-          ),
+        icon: Padding(
+          padding: EdgeInsets.only(top: 5),
         ),
       ),
     ),
+
     TabNavigationItem(
       page: Listings(),
       tab: BottomNavigationBarItem(

@@ -83,11 +83,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(bottom: 20),
-                                  padding: EdgeInsets.symmetric(horizontal: 30),
+                                  padding: EdgeInsets.only(right: 5, left: 20),
                                   alignment: Alignment.center,
                                   height: double.infinity,
                                   child: Row(
-                                    // mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
@@ -102,6 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                          ],
                                        ),
                                      ),
+
                                       TextButton(
                                         onPressed: () {
                                           if(currentIndex == 2){
@@ -134,8 +134,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Widget buildDot(bool isActive, bool passed) {
     return Container(
-        height: isActive ? 10 : 9,
-        width: isActive ? 20 : 9,
+        height: isActive ? 10 : 10,
+        width: isActive ? 25 : 10,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Utils.PrimaryColor),
