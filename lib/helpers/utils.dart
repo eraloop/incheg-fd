@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:fluttertoast/fluttertoast.dart";
 
-class AppUtils {
+class Utils {
   static Color PrimaryLight = Color(0xffEAE3E8);
   static Color PrimaryColor = Color(0xff330072);
   static Color YellowColor = Color(0xffFEDD1F);
@@ -18,6 +18,42 @@ class AppUtils {
         fontSize: 14.0
     );
   }
+
+  static Widget logo(){
+    return Container(
+      constraints: const BoxConstraints(
+          maxHeight: 100
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 30.0),
+      child: FittedBox(
+        child: Image.asset("assets/images/logo_blue.png",
+          fit: BoxFit.cover,
+          height: 35,
+          // width: 40,
+        ),
+      ),
+    );
+  }
+
+  static AppBar appBar(BuildContext context, String title){
+    return AppBar(
+    automaticallyImplyLeading: false,
+    backgroundColor: Colors.white,
+    elevation: 0,
+      title: Text(title,
+        style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontFamily: 'Nexa',
+            fontStyle: FontStyle.normal,
+            fontSize: 20,
+            fontWeight: FontWeight.w900),
+      ),
+      centerTitle: true,
+
+    );
+  }
+
+
 
   static showProgressDialog(BuildContext context) {
     showDialog(

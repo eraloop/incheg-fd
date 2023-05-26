@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:incheg_events/helper/network.dart';
+import 'package:incheg_events/helpers/network_helper.dart';
 
 class User {
   int id;
@@ -29,7 +28,7 @@ class User {
     const  String url = 'api/register';
     try {
       print("user data before post request $data");
-      final response = await HttpResource().post(url, json.encode(data));
+      final response = await Network().post(url, json.encode(data));
       return response;
     } catch (error) {
       print(error);
@@ -41,7 +40,7 @@ class User {
     print(" this is data for post request $data");
     const String url = 'api/login';
     try {
-      final response = await HttpResource().post(url, json.encode(data));
+      final response = await Network().post(url, json.encode(data));
       return response;
     } catch (error) {
       throw error;
@@ -51,7 +50,7 @@ class User {
   Future<dynamic> getUserDetails()  async {
     const url = 'api/profile';
     try {
-      final response = await HttpResource().get(url);
+      final response = await Network().get(url);
       print(response);
       return response;
     } catch (e) {
@@ -65,7 +64,7 @@ class User {
     Map<String, dynamic> userData = {'email': data['email']};
     try {
       print("data before request $data");
-      final response = await HttpResource().post(url, userData);
+      final response = await Network().post(url, userData);
       print(response.body);
       return response;
     } catch (e) {
@@ -80,7 +79,7 @@ class User {
     };
     const url = 'api/set_new_password';
     try {
-      final response = await HttpResource().post(url, userData);
+      final response = await Network().post(url, userData);
       return response;
     } catch (e) {
       throw e;

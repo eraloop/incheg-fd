@@ -3,11 +3,7 @@ import 'dart:convert';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:incheg_events/helper/app_utils.dart';
-import 'package:incheg_events/helper/authenticate.dart';
-import 'package:incheg_events/helper/session_mananger.dart';
-import 'package:incheg_events/home_nav.dart';
-import 'package:incheg_events/models/user.dart';
+import 'package:incheg_events/helpers/utils.dart';
 import 'package:incheg_events/onboarding/auth/login.dart';
 import 'package:incheg_events/onboarding/auth/phone_verification.dart';
 class SignUp extends StatefulWidget {
@@ -39,32 +35,26 @@ class _SignUpState extends State<SignUp> {
       "confirm_password" : ''
   };
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          margin: const EdgeInsets.only(top: 50),
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            // mainAxisAlignment: MainAxisAlignment.center,
+          margin: const EdgeInsets.only(top: 30),
+          child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text("Sign Up",
-                  style: Theme.of(context).textTheme.headline4,),
-              ),
+              Utils.logo(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
                 child: Text("Please provide your login info below",
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText1,),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30.0),
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Form(
                   key: formKey,
                   child: Expanded(
@@ -72,8 +62,6 @@ class _SignUpState extends State<SignUp> {
                       padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        // mainAxisSize: MainAxisSize.min,
-                        // crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           TextFormField(
                             obscureText: !_passwordVisible,
@@ -430,8 +418,6 @@ class _SignUpState extends State<SignUp> {
                                   padding: MaterialStateProperty.all<EdgeInsets>(
                                       const EdgeInsets.only(
                                           top: 10.0,
-                                          left: 110,
-                                          right: 110,
                                           bottom: 10)),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(RoundedRectangleBorder(
@@ -440,11 +426,6 @@ class _SignUpState extends State<SignUp> {
                                   backgroundColor:
                                   MaterialStateProperty.all(Color(0xff330072))),
                               onPressed: null,
-                              // Authenticate.onVerifyPhone(
-                              //   context,
-                              //   userData['phone'],
-                              //   userData
-                              // ),
                               child: Text("Sign Up",
                                 style: Theme.of(context).textTheme.headline5,),
                             ),
@@ -487,30 +468,31 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
 
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Divider(
-                                        color: Theme.of(context).primaryColor,
-                                      )
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Theme.of(context).primaryColor,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal : 5.0),
-                                    child: Text(
-                                        "OR ",
-                                        style: Theme.of(context).textTheme.headline1
-                                    ),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Text("OR",
+                                    style: Theme.of(context).textTheme.headline6,),
+                                ),
+
+                                Expanded(
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Theme.of(context).primaryColor,
+
                                   ),
-                                  Expanded(
-                                      child: Divider(
-                                        color: Theme.of(context).primaryColor,
-                                      )
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -520,14 +502,12 @@ class _SignUpState extends State<SignUp> {
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                padding: const EdgeInsets.symmetric(vertical: 0.0),
                 child: TextButton(
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.only(
                             top: 10,
-                            left: 105,
-                            right: 105,
                             bottom:10)),
                     backgroundColor:
                     MaterialStateProperty.all(Color(0xffffffff)),

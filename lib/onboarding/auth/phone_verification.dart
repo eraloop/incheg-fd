@@ -1,11 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:incheg_events/helper/app_utils.dart';
-import 'package:incheg_events/helper/authenticate.dart';
-import 'package:incheg_events/helper/session_mananger.dart';
-import 'package:incheg_events/home_nav.dart';
-import 'package:incheg_events/models/user.dart';
+import 'package:incheg_events/helpers/auth_helper.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 class PhoneVerification extends StatefulWidget {
   const PhoneVerification({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:incheg_events/helper/app_utils.dart';
+import 'package:incheg_events/helpers/utils.dart';
 import 'package:incheg_events/onboarding/auth/home_auth.dart';
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -28,29 +28,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    double screenHeight = MediaQuery.of(context).size.height;
+    double imageHeight = screenHeight * 0.6;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          // toolbarHeight: 60,
-          title: Center(
-            child: Text(
-              "Incheg",
-              textAlign: TextAlign.center,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .headline1,
-
-            ),
-          ),
-        ),
-        backgroundColor: Colors.white,
-        body: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: PageView.builder(
+        body: PageView.builder(
             controller: _controller,
             itemCount: 3,
             onPageChanged: (int i) {
@@ -63,21 +45,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Container(
                     child:  Column(
                       children: <Widget>[
-                        // Image.asset(
-                        //   "content[i].image",
-                        //   width: double.infinity,
-                        // ),
                         Container(
                           margin: const EdgeInsets.only(bottom: 20),
-                          height: 350,
+                          height: imageHeight,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: Theme.of(context).backgroundColor,
-                            borderRadius: BorderRadius.all(Radius.circular(20))
+                            // borderRadius: BorderRadius.all(Radius.circular(20))
+                          ),
+                          child: Image.asset("assets/images/jakob-owens-qoFQxxuk3QY-unsplash.jpg",
+                            fit: BoxFit.cover,
                           ),
                         ),
 
+
                         Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                           alignment: Alignment.topCenter,
                           width: double.infinity,
                           // height: phoneHeight * 0.1,
@@ -94,55 +77,59 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         const Spacer(),
                         Container(
                             width: double.infinity,
-                            height: 50,
+                            height: 100,
                             child: Stack(
                               clipBehavior: Clip.none,
                               children: [
-                                if(currentIndex == 2) ...[
-                                  Positioned(
-                                      right: 0,
-                                      bottom: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(builder: (context) => HomeAuth()),
-                                                 );
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          child: Center(
-                                            child: Text("FINISH", style: theme.textTheme.headline4
-                                                ?.copyWith(fontWeight: FontWeight.w600, fontSize: 15),),
-                                          ),
-                                        ),
-                                      )
-                                  )
-                                ],
                                 Container(
+                                  margin: EdgeInsets.only(bottom: 20),
+                                  padding: EdgeInsets.symmetric(horizontal: 30),
                                   alignment: Alignment.center,
                                   height: double.infinity,
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        buildDot(currentIndex == 0, currentIndex > 0),
-                                        const SizedBox(width: 18,),
-                                        buildDot(currentIndex == 1, currentIndex > 1),
-                                        const SizedBox(width: 18,),
-                                        buildDot(currentIndex == 2, currentIndex > 2),
-                                      ],
-                                    ),
+                                  child: Row(
+                                    // mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                     Container(
+                                       child: Row(
+                                         children: [
+                                           buildDot(currentIndex == 0, currentIndex > 0),
+                                           const SizedBox(width: 18,),
+                                           buildDot(currentIndex == 1, currentIndex > 1),
+                                           const SizedBox(width: 18,),
+                                           buildDot(currentIndex == 2, currentIndex > 2),
+                                         ],
+                                       ),
+                                     ),
+                                      TextButton(
+                                        onPressed: () {
+                                          if(currentIndex == 2){
+                                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeAuth()));
+                                          }
+                                          else{
+                                            _controller.animateToPage(currentIndex + 1, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(100),
+                                            color:  Utils.PrimaryColor,
+                                          ),
+                                            child: Icon(Icons.arrow_forward, color: Colors.white, size: 20,)),
+                                      )
+                                    ],
                                   ),
                                 ),
-
                               ],
                             )
                         ),
                       ],
                     )) ,
           ),
-        ));
+    );
   }
 
   Widget buildDot(bool isActive, bool passed) {
@@ -151,7 +138,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         width: isActive ? 20 : 9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppUtils.PrimaryColor),
+          border: Border.all(color: Utils.PrimaryColor),
           color: isActive ? Theme
               .of(context)
               .primaryColor : Colors.white,)

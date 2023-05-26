@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:incheg_events/helper/app_utils.dart';
-import 'package:incheg_events/helper/network.dart';
-import 'package:incheg_events/helper/session_mananger.dart';
+import 'package:incheg_events/helpers/network_helper.dart';
+import 'package:incheg_events/helpers/utils.dart';
 import 'package:incheg_events/home_nav.dart';
 import 'package:incheg_events/models/user.dart';
 import 'package:incheg_events/onboarding/auth/phone_verification.dart';
+import 'package:incheg_events/session/session_mananger.dart';
 
 class Authenticate {
   SessionManager ss = SessionManager();
@@ -24,7 +24,7 @@ class Authenticate {
     final String url = 'api/provider_auth';
     try {
       print("user data before post request $data");
-      var response = await HttpResource().post(url, data);
+      var response = await Network().post(url, data);
 
       return response;
     } catch (error) {
@@ -46,8 +46,7 @@ class Authenticate {
 
     try {
       print("user data before post request $data");
-      final response = await HttpResource().post(url, data);
-      print(response.body);
+      final response = await Network().post(url, data);
       return response;
     } catch (error) {
       print(error);
@@ -75,7 +74,7 @@ class Authenticate {
       timeout: const Duration(seconds: 60),
       verificationCompleted: (fb.AuthCredential authCredential) async {
         Navigator.pop(context);
-        AppUtils.showProgressDialog(context);
+        Utils.showProgressDialog(context);
         final response = await User.register(userData);
         print("response from onverify phone during normal signup $response");
         if (response.statusCode == 201) {
@@ -163,11 +162,11 @@ class Authenticate {
 
     auth.signInWithCredential(credential).catchError((error) {
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeNav()));
-      AppUtils.showToast(context, Colors.red, 'Something went wrong');
+      Utils.showToast(context, Colors.red, 'Something went wrong');
 
     }).then((value) async {
       Navigator.pop(context);
-      AppUtils.showProgressDialog(context);
+      Utils.showProgressDialog(context);
       final response = await  User.register(userData);
       final data = json.decode(response.body);
       print(" error from backend $data");
@@ -186,27 +185,27 @@ class Authenticate {
         );
         SessionManager().setToken(data['token']);
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeNav()));
-        AppUtils.showToast(context, Colors.green, data['message']);
+        Utils.showToast(context, Colors.green, data['message']);
       }else if (response.statusCode == 401){
         //  credentials not correct
         Navigator.of(context, rootNavigator: true).pop();
-        AppUtils.showToast(context, Colors.red, data['message']);
+        Utils.showToast(context, Colors.red, data['message']);
       }else if(response.statusCode == 403){
         //  missing credential
         Navigator.of(context, rootNavigator: true).pop();
-        AppUtils.showToast(context, Colors.red, data['message']);
+        Utils.showToast(context, Colors.red, data['message']);
       }else if(response.statusCode == 409){
         Navigator.of(context, rootNavigator: true).pop();
-        AppUtils.showToast(context, Colors.red, data['message']);
+        Utils.showToast(context, Colors.red, data['message']);
       }
       else if(response.statusCode == 500){
         //server error
         Navigator.of(context, rootNavigator: true).pop();
-        AppUtils.showToast(context, Colors.red, data['message']);
+        Utils.showToast(context, Colors.red, data['message']);
       }else{
         // something whe  wrong
         Navigator.of(context, rootNavigator: true).pop();
-        AppUtils.showToast(context, Colors.red, 'Something when wrong');
+        Utils.showToast(context, Colors.red, 'Something when wrong');
       }
     });
   }

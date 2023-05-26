@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:incheg_events/helper/app_utils.dart';
-import 'package:incheg_events/helper/session_mananger.dart';
+import 'package:incheg_events/helpers/utils.dart';
 import 'package:incheg_events/home_nav.dart';
 import 'package:incheg_events/models/user.dart';
+import 'package:incheg_events/onboarding/auth/forgot_password.dart';
 import 'package:incheg_events/onboarding/auth/home_auth.dart';
 import 'package:incheg_events/onboarding/auth/signup.dart';
+import 'package:incheg_events/session/session_mananger.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -35,14 +36,15 @@ class _LoginState extends State<Login> {
     if (formKey.currentState != null) {
       formKey.currentState!.save();
     }
+    SessionManager ss = SessionManager();
 
-    AppUtils.showProgressDialog(context);
+    Utils.showProgressDialog(context);
     final response = await  User.login(formData);
     final data = json.decode(response.body);
     if(response.statusCode == 201){
       //  success
       Navigator.of(context, rootNavigator: true).pop();
-      SessionManager().setUser(
+      ss.setUser(
         id: data['user']['id'],
         token: data['token'],
         name: data['user']['name'],
@@ -52,26 +54,26 @@ class _LoginState extends State<Login> {
         resp_promoter: data['user']['resp_promoter'],
         eligibility_status: data['user']['eligibility_status'],
       );
-      SessionManager().setToken(data['token']);
+      ss.setToken(data['token']);
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeNav()));
-      AppUtils.showToast(context, Colors.green, data['message']);
+      Utils.showToast(context, Colors.green, data['message']);
 
     }else if (response.statusCode == 401){
       //  credentials not correct
       Navigator.of(context, rootNavigator: true).pop();
-      AppUtils.showToast(context, Colors.red, data['message']);
+      Utils.showToast(context, Colors.red, data['message']);
     }else if(response.statusCode == 403){
       //  missing credential
       Navigator.of(context, rootNavigator: true).pop();
-      AppUtils.showToast(context, Colors.red, data['message']);
+      Utils.showToast(context, Colors.red, data['message']);
     }else if(response.statusCode == 500){
       //server error
       Navigator.of(context, rootNavigator: true).pop();
-      AppUtils.showToast(context, Colors.red, data['message']);
+      Utils.showToast(context, Colors.red, data['message']);
     }else{
       // something whe  wrong
       Navigator.of(context, rootNavigator: true).pop();
-      AppUtils.showToast(context, Colors.red, 'Something when wrong');
+      Utils.showToast(context, Colors.red, 'Something when wrong');
     }
 
   }
@@ -83,23 +85,20 @@ class _LoginState extends State<Login> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Container(
-            margin: const EdgeInsets.only(top: 150),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.center,
+            margin: const EdgeInsets.only(top: 100),
+            child: ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text("Login",
-                  style: Theme.of(context).textTheme.headline4,),
-                ),
+                Utils.logo(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Text("Please provide your login info below",
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText1,),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Form(
                       key: formKey,
                       child: Column(
@@ -117,7 +116,6 @@ class _LoginState extends State<Login> {
                           if (!EmailValidator.validate(value)) {
                             return "Please enter a valid email";
                           }
-
                           final RegExp regex = RegExp(
                               r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
                           // RegExp regex = new RegExp(pattern);
@@ -237,9 +235,9 @@ class _LoginState extends State<Login> {
                             Icons.visibility,
                             color: Theme.of(context).primaryColor,
                           )
-                              : const Icon(
+                              : Icon(
                             Icons.visibility_off,
-                            color: Color(0xff000000),
+                            color: Theme.of(context).primaryColor,
                           ),
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable
@@ -295,8 +293,6 @@ class _LoginState extends State<Login> {
                               padding: MaterialStateProperty.all<EdgeInsets>(
                                   const EdgeInsets.only(
                                       top: 10.0,
-                                      left: 110,
-                                      right: 110,
                                       bottom: 10)),
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(RoundedRectangleBorder(
@@ -319,8 +315,14 @@ class _LoginState extends State<Login> {
                        Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: TextButton(
+                          style: ButtonStyle(
+                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                          ),
                           onPressed: (){
-
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ForgotPassword()),
+                            );
                           },
                           child: Text(
                             "Forgot password ? ",
@@ -329,49 +331,45 @@ class _LoginState extends State<Login> {
                         ),
                       ),
 
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Divider(
-                                    color: Theme.of(context).primaryColor,
-                                  )
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal : 5.0),
-                                child: Text(
-                                    "OR ",
-                                    style: Theme.of(context).textTheme.headline1
-                                ),
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text("OR",
+                                style: Theme.of(context).textTheme.headline6,),
+                            ),
+
+                            Expanded(
+                              child: Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+
                               ),
-                              Expanded(
-                                  child: Divider(
-                                    color: Theme.of(context).primaryColor,
-                                  )
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                       // const Spacer(),
-
-
-
                     ],
                   )),
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(vertical: 0.0),
                   child: TextButton(
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.only(
                               top: 10,
-                              left: 110,
-                              right: 110,
                               bottom:10)),
                       backgroundColor:
                       MaterialStateProperty.all(Color(0xffffffff)),

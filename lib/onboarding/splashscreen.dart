@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:incheg_events/helper/app_utils.dart';
+import 'package:incheg_events/helpers/utils.dart';
 import 'package:incheg_events/onboarding/loading_screen.dart';
 import 'package:incheg_events/onboarding/onboarding.dart';
 class SplashScreen extends StatefulWidget {
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
      body: Container(
          height: double.infinity,
          width: double.infinity,
-         color: AppUtils.PrimaryColor,
+         color: Utils.PrimaryColor,
          child: Column(
            mainAxisAlignment: MainAxisAlignment.center,
            children: [

@@ -1,15 +1,11 @@
 import 'dart:convert';
-
-
 import 'package:http/http.dart' as http;
-import 'package:incheg_events/helper/session_mananger.dart';
 import 'package:incheg_events/models/user.dart';
-
+import 'package:incheg_events/session/session_mananger.dart';
 
 const String baseUrl = 'http://192.168.100.23:8000/';
 
-class HttpResource {
-
+class Network {
   Future<dynamic> get(String endpoint) async {
     var url = Uri.parse(baseUrl + endpoint);
     String token = await SessionManager().getToken();
